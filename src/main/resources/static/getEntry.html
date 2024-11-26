@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>GET DATA BY USER ID</h2>
+
+<form id="userIDForm">
+  <label for="userID">Input User ID:</label><br>
+  <input type="text" id="userID" name="userID"><br>
+  <input type="submit" value="Submit">
+</form>
+
+<form action="/index.html">
+  <input type="submit" value="Create Entry" />
+</form>
+
+<form action="/getAllEntry.html">
+  <input type="submit" value="View All Entries" />
+</form>
+<!--//Output received json-->
+<div id="userData"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $('#userIDForm').on('submit', function(event) {
+    event.preventDefault();
+    const formData = {
+    "user_id": $('#userID').val()
+    };
+    const json = JSON.stringify(formData);
+    console.log(json);
+
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:8080/ketto/data/view',
+      dataType: 'json',
+      data: json,
+      contentType: 'application/json',
+      success: function(data) {
+     const userDataDiv = $('#userData');
+        userDataDiv.empty(); // Clear previous data
+        userDataDiv.append(
+            "<h3>User Data</h3>" +
+            "<p><strong>User ID:</strong> " + data.data[0].user_id + "</p>" +
+            "<p><strong>First Name:</strong> " + data.data[0].firstName + "</p>" +
+            "<p><strong>Middle Name:</strong> " + data.data[0].middleName + "</p>" +
+            "<p><strong>Last Name:</strong> " + data.data[0].lastName + "</p>" +
+            "<p><strong>Street Number:</strong> " + data.data[0].streetNumber + "</p>" +
+            "<p><strong>Street Address:</strong> " + data.data[0].streetAddress + "</p>" +
+            "<p><strong>Barangay:</strong> " + data.data[0].barangay + "</p>" +
+            "<p><strong>City:</strong> " + data.data[0].city + "</p>" +
+            "<p><strong>Province:</strong> " + data.data[0].province + "</p>" +
+            "<p><strong>ZIP:</strong> " + data.data[0].zipCode + "</p>" +
+            "<p><strong>Country:</strong> " + data.data[0].country + "</p>" +
+            "<p><strong>Birth Day:</strong> " + data.data[0].birthDay + "</p>" +
+            "<p><strong>Birth Month:</strong> " + data.data[0].birthMonth + "</p>" +
+            "<p><strong>Birth Year:</strong> " + data.data[0].birthYear + "</p><hr>"
+          );
+      }
+    });
+    return false;
+  });
+</script>
+
+</body>
+</html>

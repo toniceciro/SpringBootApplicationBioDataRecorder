@@ -20,13 +20,15 @@ public class AccessController {
         response = createEntryService.createNewEntry(data);
         return response;
     }
+    //Retrieve all entries and return as JSON Array
     @GetMapping(path = "/data/viewAll", produces = {"application/json"})
     public responseEntryBody getAllEntries(){
         responseEntryBody response;
         response = getEntryService.getAllEntries();
         return response;
     }
-    @GetMapping(path = "/data/view", produces = {"application/json"})
+    //Retrieve entry by user_id and return as JSON Array
+    @PostMapping(path = "/data/view", produces = {"application/json"})
     public responseEntryBody getEntry(@RequestBody requestBody data){
         responseEntryBody response;
         response = getEntryService.getEntry(data);

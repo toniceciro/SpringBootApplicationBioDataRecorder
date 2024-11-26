@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>GET DATA BY USER ID</h2>
+
+<form action="/getEntry.html">
+  <input type="submit" value="View Entry" />
+</form>
+<form action="/index.html">
+  <input type="submit" value="Create Entry" />
+</form>
+<!--Output received json-->
+<div id="userData"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:8080/ketto/data/viewAll',
+      success: function(response) {
+        const userDataDiv = $('#userData');
+        userDataDiv.empty(); // Clear previous data
+
+        // Iterate over the JSON array
+        response.data.forEach(function(data) {
+          userDataDiv.append(
+            "<h3>User Data</h3>" +
+            "<p><strong>User ID:</strong> " + data.user_id + "</p>" +
+            "<p><strong>First Name:</strong> " + data.firstName + "</p>" +
+            "<p><strong>Middle Name:</strong> " + data.middleName + "</p>" +
+            "<p><strong>Last Name:</strong> " + data.lastName + "</p>" +
+            "<p><strong>Street Number:</strong> " + data.streetNumber + "</p>" +
+            "<p><strong>Street Address:</strong> " + data.streetAddress + "</p>" +
+            "<p><strong>Barangay:</strong> " + data.barangay + "</p>" +
+            "<p><strong>City:</strong> " + data.city + "</p>" +
+            "<p><strong>Province:</strong> " + data.province + "</p>" +
+            "<p><strong>ZIP:</strong> " + data.zipCode + "</p>" +
+            "<p><strong>Country:</strong> " + data.country + "</p>" +
+            "<p><strong>Birth Day:</strong> " + data.birthDay + "</p>" +
+            "<p><strong>Birth Month:</strong> " + data.birthMonth + "</p>" +
+            "<p><strong>Birth Year:</strong> " + data.birthYear + "</p><hr>"
+          );
+        });
+      }
+    });
+    return false;
+  });
+</script>
+
+
+</body>
+</html>

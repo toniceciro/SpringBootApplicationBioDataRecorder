@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>SUBMIT BIO DATA</h2>
+
+<form id="bioform">
+  <label for="userFirstName">First name:</label><br>
+  <input type="text" id="userFirstName" name="userFirstName" value="Toni Ceciro"><br>
+  <label for="userMiddleName">Middle name:</label><br>
+  <input type="text" id="userMiddleName" name="userMiddleName" value="Navarro"><br><br>
+  <label for="userLastName">Last name:</label><br>
+  <input type="text" id="userLastName" name="userLastName" value="Oconer"><br><br>
+
+  <label for="birthDay">Birth Day:</label><br>
+  <input type="number" id="birthDay" name="birthDay" value="12"><br><br>
+
+  <label for="birthMonth">Birth Month:</label><br><br>
+  <select name="birthMonth" id="birthMonth">
+    <option value="January">January</option>
+    <option value="February">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+  </select><br><br>
+
+
+  <label for="birthYear">Birth Year:</label><br><br>
+  <input type="number" id="birthYear" name="birthMonth" value="2001"><br><br>
+
+  <label for="addressCountry">Country:</label><br>
+  <input type="text" id="addressCountry" name="addressCountry" value="Philippines"><br><br>
+
+  <label for="addressStreetNumber">Street Number:</label><br>
+  <input type="number" id="addressStreetNumber" name="addressStreetNumber" value="123"><br><br>
+
+  <label for="addressStreetAddress">Street Address:</label><br>
+  <input type="text" id="addressStreetAddress" name="addressStreetAddress" value="Kalayaan Avenue"><br><br>
+
+  <label for="addressBarangay">Barangay:</label><br>
+  <input type="text" id="addressBarangay" name="addressBarangay" value="Guadalupe Nuevo"><br><br>
+
+  <label for="addressCity">City:</label><br>
+  <input type="text" id="addressCity" name="addressCity" value="Makati City"><br><br>
+
+  <label for="addressProvince">Province:</label><br>
+  <input type="text" id="addressProvince" name="addressProvince" value="Metro Manila"><br><br>
+
+  <label for="addressZipCode">ZIP:</label><br>
+  <input type="number" id="addressZipCode" name="addressZipCode" value="1212"><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+<!--For displaying status of request-->
+<div id="statusData"></div>
+
+<form action="/getEntry.html">
+  <input type="submit" value="View Entry" />
+</form>
+
+<form action="/getAllEntry.html">
+  <input type="submit" value="View All Entries" />
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $('#bioform').on('submit', function(event) {
+    event.preventDefault();
+    const formData = {
+      userFirstName: $('#userFirstName').val(),
+      userMiddleName: $('#userMiddleName').val(),
+      userLastName: $('#userLastName').val(),
+      birthDay: $('#birthDay').val(),
+      birthMonth: $('#birthMonth').val(),
+      birthYear: $('#birthYear').val(),
+      addressCountry: $('#addressCountry').val(),
+      addressStreetNumber: $('#addressStreetNumber').val(),
+      addressStreetAddress: $('#addressStreetAddress').val(),
+      addressBarangay: $('#addressBarangay').val(),
+      addressCity: $('#addressCity').val(),
+      addressProvince: $('#addressProvince').val(),
+      addressZipCode: $('#addressZipCode').val()
+    };
+    const json = JSON.stringify(formData);
+    console.log(json);
+
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:8080/ketto/data/create',
+      dataType: 'json',
+      data: json,
+      contentType: 'application/json',
+      success: function(data) {
+      const statusDataDiv = $('#statusData');
+      statusDataDiv.empty();
+      statusData.append("Status: " + data.status + "\nUser ID: " + data.user_id );
+      }
+    });
+    return false;
+  });
+</script>
+
+</body>
+</html>

@@ -36,7 +36,6 @@ public class createEntryService {
             responseBody response = new responseBody();
             response.setStatus("OK");
             response.setUser_id(userID);
-            System.out.println("Success!");
             return response;
         }
         else{
