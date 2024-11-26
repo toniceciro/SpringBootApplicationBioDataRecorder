@@ -3,10 +3,8 @@ package com.toniceciro.springbootaccessapplication.model;
 import com.toniceciro.springbootaccessapplication.entity.SpringAccessDbJoinEntityModel;
 import lombok.Data;
 
-
+import java.util.List;
 @Data
-public class responseBody {
-
-    private String status;
-    private Integer user_id;
+public class responseEntryBody {
+    List<SpringAccessDbJoinEntityModel> data;
 }

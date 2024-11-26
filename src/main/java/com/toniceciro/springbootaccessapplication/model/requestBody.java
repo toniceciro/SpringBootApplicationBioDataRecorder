@@ -20,4 +20,6 @@ public class requestBody {
     private String addressCity;
     private String addressProvince;
     private Integer addressZipCode;
+
+    private Integer user_id;
 }

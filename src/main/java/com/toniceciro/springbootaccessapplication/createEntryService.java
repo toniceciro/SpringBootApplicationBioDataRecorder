@@ -41,14 +41,20 @@ public class createEntryService {
         }
         else{
             responseBody response = new responseBody();
-            response.setStatus("ERROR");
+            response.setStatus("ERROR: Invalid Input");
             return response;
         }
 
     }
     //Validate inputs
     private Boolean checkInputs(requestBody request){
-                return true;
+    List<String> nameList = List.of(request.getUserFirstName(),request.getUserMiddleName(),request.getUserLastName());
+    List<String> addressList = List.of(request.getAddressProvince(),request.getAddressStreetAddress(),request.getAddressCity(),request.getAddressBarangay(),request.getAddressCountry());
+
+    return checkIfAlpha(nameList) &&
+            checkBirthDate(request.getBirthDay(),request.getBirthMonth(),request.getBirthYear()) &&
+            checkZipCode(request.getAddressZipCode()) &&
+            checkIfAlphaNumeric(addressList);
     }
     //Functions to abstract DB operations
     private Integer createNewUser(String first_name, String middle_name, String last_name) {
@@ -84,17 +90,55 @@ public class createEntryService {
         }
     }
     //Regex Validators
-    private static Boolean checkIfAlpha(String checkData){
+    private static Boolean checkIfAlpha(List<String> checkData){
         final Pattern pattern = Pattern.compile("[A-Za-z]+", Pattern.CASE_INSENSITIVE);
-        final Matcher matcher = pattern.matcher(checkData);
-        return matcher.matches();
+        int x = 0;
+        while(x < checkData.size()){
+            if (pattern.matcher(checkData.get(x).replaceAll("\\s+","")).matches()){
+                x++;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
-    private static Boolean checkIfAlphaNumeric(String checkData){
+    private static Boolean checkIfAlphaNumeric(List<String> checkData){
         final Pattern pattern = Pattern.compile("[A-Za-z0-9]+", Pattern.CASE_INSENSITIVE);
-        final Matcher matcher = pattern.matcher(checkData);
-        return matcher.matches();
+        int x = 0;
+        while(x < checkData.size()){
+            if (pattern.matcher(checkData.get(x).replaceAll("\\s+","")).matches()){
+                x++;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
     private static Boolean checkZipCode(Integer checkData){
         return checkData.toString().length() == 4;
+    }
+    private static Boolean checkBirthDate(Integer day, String month, Integer year){
+        List<String> validMonthList = List.of("January","February","March","April","May","June","July","August","September","October","November","December");
+        List<String> month30Days = List.of("April","June","September","November");
+        List<String> month31Days = List.of("January","March","May","July","August","October","December");
+        if(validMonthList.contains(month)){
+            if(month30Days.contains(month)){
+                return day <= 30;
+            }
+            if(month31Days.contains(month)){
+                return day <= 31;
+            }
+            //Check if leap year
+            if(year % 4 == 0 || year % 400 == 0){
+                return day <= 29;
+            }
+            //If not leap year
+            else{
+                return day <= 28;
+            }
+        }
+        return false;
     }
 }
