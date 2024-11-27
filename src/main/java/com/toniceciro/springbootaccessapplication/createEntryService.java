@@ -69,7 +69,7 @@ public class createEntryService {
                                      Integer user_id) {
         Integer affectedRows;
         try{
-            affectedRows = springAccessDbAddressJpaRepository.createAddressEntry(streetAddress,streetNumber,city,barangay,city,zipCode,country,user_id);
+            affectedRows = springAccessDbAddressJpaRepository.createAddressEntry(streetAddress,streetNumber,barangay,city,province,zipCode,country,user_id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
